@@ -82,6 +82,10 @@ Then run the command (you can run it after you have configured the backup, bello
 docker compose up -d
 ```
 
+From this point, by default, all new documents with me saved /compagny/year/document_type/title.
+
+You can create additional storage paths, if you need to specify different path/tree.
+
 ## Install Samba
 
 ```
