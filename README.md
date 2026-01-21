@@ -1,7 +1,20 @@
 # Paperless-Raspberry-Pi5
-Installation of Paperless-ngx on a Rasoberry Pi5 with Docker
+Installation of Paperless-ngx on a Rasoberry Pi5 with Docker.
 
-https://linuxiac.com/how-to-install-docker-on-debian-13-trixie/
+You will see how to
+
+* install Docker
+* install Paperless-ngx
+* install and configure Samba
+* backup your Paperless documents to a remote Synology NAS
+
+
+## Materiel
+
+* Raspberry Pi5
+* [Raspberry Pi M.2 HAT+] (https://www.raspberrypi.com/products/m2-hat-plus/) with a SSD Disk
+* Raspberry power cable
+* A Synology NAS or similar
 
 ## Usefull commands
 ```
