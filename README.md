@@ -75,15 +75,12 @@ Edit the file `sudo nano paperless-ngx/docker-compose.env` and add the line at t
 PAPERLESS_FILENAME_FORMAT={{correspondent}}/{{created_year}}/{{document_type}}/{{title}}
 ```
 
-then run the command (you can run it after you configured the backup)
+You can find other placeholders here : https://docs.paperless-ngx.com/advanced_usage/#file-name-handling if you prefer to have another tree.
+
+Then run the command (you can run it after you have configured the backup, bellow)
 ```
 docker compose up -d
 ```
-
-
-
-
-https://docs.paperless-ngx.com/advanced_usage/#file-name-handling
 
 ## Install Samba
 
