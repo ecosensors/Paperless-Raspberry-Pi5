@@ -54,7 +54,7 @@ sudo useradd pierrot docker
 getent group
 ```
 
-the close and open the terminal
+then close and open the terminal
 ```
 docker ps
 ```
@@ -64,6 +64,26 @@ docker ps
 ```
 bash -c "$(curl --location --silent --show-error https://raw.githubusercontent.com/paperless-ngx/paperless-ngx/main/install-paperless-ngx.sh)"
 ```
+
+### Very usefull configuration
+By default, all scanned documents are stored in paperless-ngx/media/document/original/ from 00000001.pdf to 000000x.pdf.
+It's much more useful to customize the folder structure so that if you no longer wish to use Paperless, you can keep your documents in a readable and reusable format.
+
+Edit the file `sudo nano paperless-ngx/docker-compose.env` and add the line at the bottom
+
+```
+PAPERLESS_FILENAME_FORMAT={{correspondent}}/{{created_year}}/{{document_type}}/{{title}}
+```
+
+then run the command (you can run it after you configured the backup)
+```
+docker compose up -d
+```
+
+
+
+
+https://docs.paperless-ngx.com/advanced_usage/#file-name-handling
 
 ## Install Samba
 
@@ -97,7 +117,7 @@ Restart Samba
 sudo systemctl restart smbd
 ```
 
-## Back uo on a Synology NFS Share drive
+## Backup on a Synology NFS Share drive
 
 ```
 sudo apt-get install nfs-kernel-server nfs-common
@@ -119,3 +139,11 @@ volumes:
       type: "nfs"
       o: "addr=192.168.1.114,rw" # Change with your IP address
       device: ":/volume1/paperless" # Change with the path to your share
+```
+
+when it's done, you have to run the command
+
+```
+docker compose up -d
+```
+
