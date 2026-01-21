@@ -1,2 +1,121 @@
 # Paperless-Raspberry-Pi5
-Installation of Paperless on a Rasoberry Pi5 with Docker
+Installation of Paperless-ngx on a Rasoberry Pi5 with Docker
+
+https://linuxiac.com/how-to-install-docker-on-debian-13-trixie/
+
+## Usefull commands
+```
+docker compose exec webserver document_exporter ../export -fpz
+docker compose up -d
+sudo find ~/ -type f -name "export*"
+sudo nano /etc/fstab
+systemctl daemon-reload
+getent group |grep docker
+sudo mount -t cifs -o username=user,password=yourpassword,domain=WORKGROUP //192.168.1.114/paperless /home/pierrot/paperless-ngx/export/
+unzip export-2026-01-19.zip -d export-2026-01-19
+```
+
+
+## Install Docker
+```
+sudo apt install apt-transport-https ca-certificates curl gpg
+```
+
+Add Docker’s GPG Repo Key
+```
+curl -fsSL https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker.gpg
+```
+
+Add Docker Repository
+```
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker.gpg] https://download.docker.com/linux/debian trixie stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+sudo apt update
+```
+
+### Check
+```
+apt-cache policy | grep docker
+```
+
+### Install
+```
+sudo apt install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+```
+
+That’s all. Docker should now be installed; the service should be started and enabled to run automatically on boot by default. Let’s verify.
+
+```sudo systemctl is-active docker```
+
+
+Add the user to the docker group
+```
+sudo useradd pierrot docker
+getent group
+```
+
+the close and open the terminal
+```
+docker ps
+```
+
+## Install Paperless-ngx
+
+```
+bash -c "$(curl --location --silent --show-error https://raw.githubusercontent.com/paperless-ngx/paperless-ngx/main/install-paperless-ngx.sh)"
+```
+
+## Install Samba
+
+```
+sudo apt install samba samba-common-bin
+```
+### Configuration
+
+```
+sudo nano /etc/samba/smb.conf
+```
+
+Add the following
+
+```
+[consume-ngx]
+path = /home/pierrot/paperless-ngx/consume # change it to your real path
+writeable = yes
+browseable = yes
+public = no
+```
+
+Add a Samba user
+```
+sudo smbpasswd -a <USERNAME>
+sudo smbpasswd -a pierrot
+```
+
+Restart Samba
+```
+sudo systemctl restart smbd
+```
+
+## Back uo on a Synology NFS Share drive
+
+```
+sudo apt-get install nfs-kernel-server nfs-common
+```
+
+edit paperless-ngx/docker-compose.xml and change the line
+```
+#- ./export:/usr/src/paperless/export
+- export:/usr/src/paperless/export
+```
+
+and add the line starting with export, bellow the line redisdata 
+```
+volumes:
+  redisdata:
+  export:
+    driver: local
+    driver_opts:
+      type: "nfs"
+      o: "addr=192.168.1.114,rw" # Change with your IP address
+      device: ":/volume1/paperless" # Change with the path to your share
