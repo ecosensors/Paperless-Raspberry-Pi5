@@ -1,5 +1,5 @@
 # Paperless-Raspberry-Pi5
-Installation of Paperless-ngx on a Rasoberry Pi5 with Docker.
+Installation of the OpenSource EDM [Paperless-ngx](https://docs.paperless-ngx.com/) on a Rasoberry Pi5 with Docker.
 
 You will see how to
 
