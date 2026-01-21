@@ -1,17 +1,24 @@
 # Paperless-Raspberry-Pi5
+
+(That summary is being writting)
+
 Installation of the OpenSource EDM [Paperless-ngx](https://docs.paperless-ngx.com/) on a Rasoberry Pi5 with Docker.
 
-You will see how to
+That summary will show you how to
 
+* Install the raspberry
 * install Docker
 * install Paperless-ngx
 * install and configure Samba
 * backup your Paperless documents to a remote Synology NAS
 
+Note: I do not have so much experience with Docker and paperless. You might need to adapt the step according to your needs. Feel free to suggest corrections and improvements. I assume you have a minimum experience with Raspberry and command lines.
 
 ## Materiel
 
 * Raspberry Pi5
+* Raspberry Pi Official cable Micro-HDMI to HDMI
+* Keyboard and mouse
 * [Raspberry Pi M.2 HAT+] (https://www.raspberrypi.com/products/m2-hat-plus/) with a SSD Disk
 * Raspberry power cable
 * A Synology NAS or similar
@@ -27,6 +34,12 @@ getent group |grep docker
 sudo mount -t cifs -o username=user,password=yourpassword,domain=WORKGROUP //192.168.1.114/paperless /home/pierrot/paperless-ngx/export/
 unzip export-2026-01-19.zip -d export-2026-01-19
 ```
+
+## Installation of the Raspberry
+
+After you have assembled the SSD hat onto the Raspberry Pi, connect an Ethernet cable from your home router to the Ethernet port on your Raspberry Pi. Connect a keyboard and an Micro-HDMI cable to a monitor. Power on your Raspberry Pi and hold down the Shift key.
+
+(In progress)
 
 
 ## Install Docker
