@@ -12,16 +12,23 @@ That summary will show you how to
 * install and configure Samba
 * backup your Paperless documents to a remote Synology NAS
 
-Note: I do not have so much experience with Docker and paperless. You might need to adapt the step according to your needs. Feel free to suggest corrections and improvements. I assume you have a minimum experience with Raspberry and command lines.
+I assume 
+* you have a minimum experience with Raspberry and command lines.
+* you feel confortable to assemble [the SSD M.2 hat and the cooler](https://www.raspberrypi.com/documentation/accessories/m2-hat-plus.html#installation)
+* you feel confortable to install the [Raspberry OS](https://www.raspberrypi.com/documentation/computers/os.html#introduction) and [configure it](https://www.raspberrypi.com/documentation/computers/configuration.html#raspi-config) with command line
+
+Note: I do not have so much experience with Docker and paperless. You might need to adapt the step according to your needs. Feel free to suggest corrections and improvements. 
 
 ## Materiel
 
-* Raspberry Pi5
-* Raspberry Pi Official cable Micro-HDMI to HDMI
+* [Raspberry Pi5 16G](https://www.pi-shop.ch/raspberry-pi-5-16gb-ram)
+* [Raspberry Pi Official cable Micro-HDMI to HDMI](https://www.raspberrypi.com/products/micro-hdmi-to-standard-hdmi-a-cable/) or [adaptator](https://www.pi-shop.ch/micro-hdmi-to-hdmi-adapter) with an HDMI cable
+* [Raspberry Pi Active Cooler for Pi5](https://www.raspberrypi.com/products/active-cooler/) (optional)
 * Keyboard and mouse
-* [Raspberry Pi M.2 HAT+] (https://www.raspberrypi.com/products/m2-hat-plus/) with a SSD Disk
-* Raspberry power cable
+* [Raspberry Pi M.2 HAT+](https://www.raspberrypi.com/products/ssd-kit/) with a [SSD Disk](https://www.galaxus.ch/fr/s1/product/raspberry-pi-sc1440-512-go-m2-2230-ssd-52318096) ([Doc](https://www.raspberrypi.com/documentation/accessories/ssd-kit.html)) You also can choose for a [compact board](https://www.galaxus.ch/fr/s1/product/raspberry-pi-official-m2-hat-compact-has-module-electronique-62283750) version.
+* [Raspberry power cable](https://www.raspberrypi.com/products/27w-power-supply/)
 * A Synology NAS or similar
+* [Rasberry Box](https://www.berrybase.de/dfrobot-aluminiumgehaeuse-fuer-raspberry-pi-5-aluminiumlegierung-verstellbarer-luefter-kuehlkoerper) (Optional)
 
 ## Usefull commands
 ```
@@ -42,7 +49,7 @@ After you have assembled the SSD hat onto the Raspberry Pi, connect an Ethernet 
 (In progress)
 
 
-## Install Docker
+## Docker
 ```
 sudo apt install apt-transport-https ca-certificates curl gpg
 ```
@@ -77,7 +84,8 @@ That’s all. Docker should now be installed; the service should be started and 
 Add the user to the docker group
 ```
 sudo useradd pierrot docker
-getent group
+# Check
+getent group|grep docker
 ```
 
 then close and open the terminal
@@ -92,8 +100,8 @@ bash -c "$(curl --location --silent --show-error https://raw.githubusercontent.c
 ```
 
 ### Very usefull configuration
-By default, all scanned documents are stored in paperless-ngx/media/document/original/ from 00000001.pdf to 000000x.pdf.
-It's much more useful to customize the folder structure so that if you no longer wish to use Paperless, you can keep your documents in a readable and reusable format.
+By default, all documents are stored in paperless-ngx/media/document/original/ from 00000001.pdf to 000000x.pdf.
+It's much more useful to customize the folder structure/tree so that if you no longer wish to use Paperless, you can keep your documents in a readable and reusable structure.
 
 Edit the file `sudo nano paperless-ngx/docker-compose.env` and add the line at the bottom
 
@@ -110,9 +118,12 @@ docker compose up -d
 
 From this point, by default, all new documents with me saved /compagny/year/document_type/title.
 
-You can create additional storage paths, if you need to specify different path/tree.
+From the Paperless admin, You can create additional storage paths, if you need to specify different path/tree.
 
 ## Install Samba
+Paperless let you to copy/past or move a pdf file into folder called 'consume'. After you past your pdf file, Paperless will automatically detect it and create a new record. You will just need to finalized the entry according to the document type, correspondant and tags. A special tag will be assigned to the new entry because you desifned that tag for all new imported document.
+
+On my Raspberry Pi5, I configured Samba to be able to mount the Samba share to my MacBook. In that way, from my MacBook, I am able to move or copy/past a pdf file, I want to import to Paperless, on my Raspberry Pi5. 
 
 ```
 sudo apt install samba samba-common-bin
@@ -127,7 +138,7 @@ Add the following
 
 ```
 [consume-ngx]
-path = /home/pierrot/paperless-ngx/consume # change it to your real path
+path = /home/pierrot/paperless-ngx/consume # Change the username (pierrot) according to yours
 writeable = yes
 browseable = yes
 public = no
@@ -135,8 +146,7 @@ public = no
 
 Add a Samba user
 ```
-sudo smbpasswd -a <USERNAME>
-sudo smbpasswd -a pierrot
+sudo smbpasswd -a pierrot # Change the username (pierrot) according to yours
 ```
 
 Restart Samba
