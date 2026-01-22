@@ -19,7 +19,9 @@ I assume
 
 Note: I do not have so much experience with Docker and paperless. You might need to adapt the step according to your needs. Feel free to suggest corrections and improvements. 
 
-## Materiel
+## Materals
+
+This exercise have been done on a MacBook Pro M4 and with a Synology DS220+
 
 * [Raspberry Pi5 16G](https://www.pi-shop.ch/raspberry-pi-5-16gb-ram)
 * [Raspberry Pi Official cable Micro-HDMI to HDMI](https://www.raspberrypi.com/products/micro-hdmi-to-standard-hdmi-a-cable/) or [adaptator](https://www.pi-shop.ch/micro-hdmi-to-hdmi-adapter) with an HDMI cable
@@ -44,9 +46,17 @@ unzip export-2026-01-19.zip -d export-2026-01-19
 
 ## Installation of the Raspberry
 
-After you have assembled the SSD hat onto the Raspberry Pi, connect an Ethernet cable from your home router to the Ethernet port on your Raspberry Pi. Connect a keyboard and an Micro-HDMI cable to a monitor. Power on your Raspberry Pi and hold down the Shift key.
+After you have assembled the SSD hat onto the Raspberry Pi, connect an Ethernet cable from your home router to the Ethernet port of your Raspberry Pi5. Connect a keyboard and an Micro-HDMI cable to a monitor (HDMI). Power on your Raspberry Pi and hold down the Shift key.
 
 (In progress)
+
+
+## Miscellaneous
+On your Internet Box (home router), I recommend reserving the IP address assigned by your router (DHCP) for your Raspberry Pi, according to its MAC address. In that way, your Raspberry will always have the same IP address.
+
+All steps bellow are done with command lines. So, you will need to be connect to your Raspberry with `ssh usernanem@hostname.local` from the terminal of your Macbook...
+
+As you connected a monitor, and keyboard and a mouse to your Rasoberry, you can perform the following steps from the terminal of your Raspberry, as well.
 
 
 ## Docker
@@ -67,9 +77,22 @@ sudo apt update
 ```
 
 ### Check
+
+If you enter `sudo apt update` you should be able to read
+
+> Atteint : 2 https://download.docker.com/linux/debian trixie InRelease
+
+
+If you enter
 ```
 apt-cache policy | grep docker
 ```
+
+You should read
+> 500 https://download.docker.com/linux/debian trixie/stable arm64 Packages
+     origin download.docker.com
+
+
 
 ### Install
 ```
