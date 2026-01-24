@@ -279,7 +279,7 @@ On your Synology NAS you will need to
 * Create a share folder (I named it 'paperless')
 * Go to NFS permission tab and give the IP address of your Raspberry
 
-![assets/images/synology-nfs.png]
+![ynology NFS](assets/images/synology-nfs.png "Synology NFS")
 
 On the Raspberry, I need to configure NFS
 
