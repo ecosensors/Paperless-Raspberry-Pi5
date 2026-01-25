@@ -9,8 +9,9 @@ That summary will show you how to
 * Install the raspberry
 * install Docker
 * install Paperless-ngx
-* install and configure Samba
 * backup your Paperless documents to a remote Synology NAS
+* install and configure Samba
+
 
 I assume 
 * you have a minimum experience with Raspberry and command lines.
@@ -49,15 +50,31 @@ unzip export-2026-01-19.zip -d export-2026-01-19
 
 After you have assembled the SSD hat onto the Raspberry Pi, connect an Ethernet cable from your home router to the Ethernet port of your Raspberry Pi5. Connect a keyboard and an Micro-HDMI cable to a monitor (HDMI). Power on your Raspberry Pi and hold down the Shift key (you may need a wire keyboard).
 
-On the next violet window, you will be asked to [select](https://www.raspberrypi.com/documentation/computers/getting-started.html#step-2-configure-the-fundamentals) you board, the OS and the storage devise. Select
+On the next window (white and purple, you will be asked to [select](https://www.raspberrypi.com/documentation/computers/getting-started.html#step-2-configure-the-fundamentals) you board, the OS and the storage devise. Select
 
-* Raspberry Pi5
-* Raspberry Pi OS (64-bit)
-* Select the SSD drive (you may have one option)
+* Raspberry Pi devise: Raspberry Pi5
+* Operating system: Raspberry Pi OS (64-bit)
+* Storage: Select the SSD drive (you may have one option SAMSUNG MZ9LQ...)
+* Select a language and your keyboard language
 
+You can personalize your OS which is very usefull, but I notice with Pi OS (64-bit), the setting are not saved and you will be asked to do that at the end.
 (In progress)
 
-When the installation is completed, with the keyboard and mouse connect at the Raspberry, open a terminal and enter
+When the installation is completed, with the keyboard and mouse connect at the Raspberry, open a terminal and enter. When you will propted
+
+Country
+* Country: Select your location
+* Language: select your language
+* Time zone: Select your time zone
+
+Create user:
+* Enter username: Choose an username
+* password: Choose a password and confirm it
+
+select WiFi Network
+* Choose your WiFi
+
+When the update are done, open a terminal and
 
 ```
 sudo raspi-config
@@ -234,6 +251,72 @@ From this point, by default, all new documents with me saved /compagny/year/docu
 
 From the Paperless admin, You can create additional storage paths, if you need to specify different path/tree.
 
+
+
+## Backup/restaure on a Synology NFS Share drive
+
+I want to weekly backup all my documents and the paperless configuration file to an external devise.
+
+### Preparation
+
+On your Synology NAS you will need to
+* Create a share folder (I named it 'paperless')
+* Go to NFS permission tab and give the IP address of your Raspberry and follow the steps below
+
+![ynology NFS](assets/images/synology-nfs.png "Synology NFS")
+
+
+On the Raspberry, you need to configure NFS
+
+```
+sudo apt-get install nfs-kernel-server nfs-common
+```
+
+edit paperless-ngx/docker-compose.xml and change the line
+```
+#- ./export:/usr/src/paperless/export
+- export:/usr/src/paperless/export
+```
+
+and add the line starting with export, bellow the line redisdata 
+```
+volumes:
+  redisdata:
+  export:
+    driver: local
+    driver_opts:
+      type: "nfs"
+      o: "addr=192.168.1.114,rw" # Change with your IP address
+      device: ":/volume1/paperless" # Change with the path to your share
+```
+
+when it's done, you have to run the command
+
+```
+cd ~/paperless-ngx
+docker compose up -d
+```
+
+### Backup
+
+If you want to run manuelly the backup, go the paperless directory and run the command
+```
+cd paperless-ngx
+docker compose exec webserver document_exporter ../export -fpz
+```
+
+#### Backup with cron
+
+
+
+On your Synology NAS, you will find a zip file named export-year-mont-day.zip (export-2026-01-20.zip). You can extract the zip file and find a needed ped in `paperless-ngx/media/documents/originals`
+
+### Restaure
+
+```
+docker compose exec webserver document_importer ../export/export-2026-01-20.zip
+```
+
 ## Install Samba
 Paperless let you to copy/past or move a pdf file into folder called 'consume'. After you past your pdf file, Paperless will automatically detect it and create a new record. You will just need to finalized the entry according to the document type, correspondant and tags. A special tag will be assigned to the new entry because you desifned that tag for all new imported document.
 
@@ -267,70 +350,6 @@ sudo smbpasswd -a pierrot # Change the username (pierrot) according to yours
 Restart Samba
 ```
 sudo systemctl restart smbd
-```
-
-## Backup/restaure on a Synology NFS Share drive
-
-I want to weekly backup all my documents and the paperless configuration file to an external devise.
-
-### Preparation
-
-On your Synology NAS you will need to
-* Create a share folder (I named it 'paperless')
-* Go to NFS permission tab and give the IP address of your Raspberry
-
-![ynology NFS](assets/images/synology-nfs.png "Synology NFS")
-
-On the Raspberry, I need to configure NFS
-
-```
-sudo apt-get install nfs-kernel-server nfs-common
-```
-
-edit paperless-ngx/docker-compose.xml and change the line
-```
-#- ./export:/usr/src/paperless/export
-- export:/usr/src/paperless/export
-```
-
-and add the line starting with export, bellow the line redisdata 
-```
-volumes:
-  redisdata:
-  export:
-    driver: local
-    driver_opts:
-      type: "nfs"
-      o: "addr=192.168.1.114,rw" # Change with your IP address
-      device: ":/volume1/paperless" # Change with the path to your share
-```
-
-when it's done, you have to run the command
-
-```
-docker compose up -d
-```
-
-### Backup
-
-If you want to run manuelly the backup, go the paperless directory and run the command
-```
-cd paperless-ngx
-docker compose exec webserver document_exporter ../export -fpz
-```
-
-#### Backup with cron
-
-
-
-On your Synology NAS, you will find a zip file named export-year-mont-day.zip (export-2026-01-20.zip). You can extract the zip file and find a needed ped in `paperless-ngx/media/documents/originals`
-
-### Restaure
-
-
-
-```
-docker compose exec webserver document_importer ../export/export-2026-01-20.zip
 ```
 
 
