@@ -50,6 +50,8 @@ unzip export-2026-01-19.zip -d export-2026-01-19
 
 After you have assembled the SSD hat onto the Raspberry Pi, connect an Ethernet cable from your home router to the Ethernet port of your Raspberry Pi5. Connect a keyboard and an Micro-HDMI cable to a monitor (HDMI). Power on your Raspberry Pi and hold down the Shift key (you may need a wire keyboard).
 
+![Pi Install](assets/images/pi-install.png "Pi Install")
+
 On the next window (white and purple, you will be asked to [select](https://www.raspberrypi.com/documentation/computers/getting-started.html#step-2-configure-the-fundamentals) you board, the OS and the storage devise. Select
 
 * Raspberry Pi devise: Raspberry Pi5
@@ -263,7 +265,7 @@ On your Synology NAS you will need to
 * Create a share folder (I named it 'paperless')
 * Go to NFS permission tab and give the IP address of your Raspberry and follow the steps below
 
-![ynology NFS](assets/images/synology-nfs.png "Synology NFS")
+![Synology NFS](assets/images/synology-nfs.png "Synology NFS")
 
 
 On the Raspberry, you need to configure NFS
