@@ -87,6 +87,7 @@ select
 * I1 SSH
 * Choose YES
 
+Then 
 * 1 System option
 * S4 hostname
 * Give an host name
@@ -102,7 +103,8 @@ ssh pierrot@hostname.local
 and run the following commands
 
 ```
-sudo apt update && sudo apt full-upgrade
+sudo apt update && sudo apt upgrade
+sudo apt full-upgrade
 sudo rpi-eeprom-update
 ```
 
@@ -199,7 +201,7 @@ bash -c "$(curl --location --silent --show-error https://raw.githubusercontent.c
 
 During the installation, you will be asked to give some information
 * URL: I want to access from any where, then I entered an URL like http://myged.mydomain.ch . If you do not want, leave it empty
-* Port [8000]: press enteer to keep the default option
+* Port [8000]: press enter to keep the default option
 * Current time zone [Europe/Zurich]: press enteer to keep the default option
 * Database backend (postgres sqlite mariadb) [postgres]: press enteer to keep the default option
 * Enable Apache Tika? (yes no) [no]: press enteer to keep the default option
@@ -221,7 +223,7 @@ If you want to access it from any where, you will need an URL for your raspberry
 
 > http://myged.mydomain.ch:8080
 
-(Next, it would be better to configure https://)
+(In the near future, it would be better to configure https://)
 
 
 ### Very usefull configuration
@@ -251,7 +253,7 @@ docker compose up -d
 
 From this point, by default, all new documents with me saved /compagny/year/document_type/title.
 
-From the Paperless admin, You can create additional storage paths, if you need to specify different path/tree.
+From the Paperless admin page, You can create additional [storage paths](https://docs.paperless-ngx.com/advanced_usage/#storage-paths), if you need to specify different path/tree.
 
 
 
@@ -299,6 +301,17 @@ cd ~/paperless-ngx
 docker compose up -d
 ```
 
+#### Investigation: 
+
+if I run
+
+```
+sudo -s
+mount -l | grep volume1
+ls -la /var/lib/docker/volumes/paperless_export/_data
+```
+all my exports are listed, but `cd ~/paperless-ngx && ls -la export` does not. I do not understand why, at the moment.
+
 ### Backup
 
 If you want to run manuelly the backup, go the paperless directory and run the command
@@ -307,17 +320,36 @@ cd paperless-ngx
 docker compose exec webserver document_exporter ../export -fpz
 ```
 
+If you have changed the default storage tree
+```
+PAPERLESS_FILENAME_FORMAT={{correspondent}}/{{created_year}}/{{document_type}}/{{title}}
+```
+the zip file contains in `media/documents/originals` all of your files.
+
+You will find all your files correctly structured so that you can locate them in your desired format. The advantage is that if you no longer wish to use Paperless, you can continue working with this structure on your computer.
+
 #### Backup with cron
 
+```
+crontab -e
+```
+(in progress)
 
-
-On your Synology NAS, you will find a zip file named export-year-mont-day.zip (export-2026-01-20.zip). You can extract the zip file and find a needed ped in `paperless-ngx/media/documents/originals`
 
 ### Restaure
+
+If I need to restaure a file, I would extract the zip file and get back the missing file(s)
+
+With the following command, I restored two exports with two different storage paths (I do not why). Some existing files have been replaced but I observed that both structure (storage paths) have been restored (not good).
 
 ```
 docker compose exec webserver document_importer ../export/export-2026-01-20.zip
 ```
+
+If I need to restore more several files, I would prefer to reinstall my Raspberry following the steps above (30mn) and import all of my files with the following command. Opt to you.
+
+I tried and it works fine!
+
 
 ## Install Samba
 Paperless let you to copy/past or move a pdf file into folder called 'consume'. After you past your pdf file, Paperless will automatically detect it and create a new record. You will just need to finalized the entry according to the document type, correspondant and tags. A special tag will be assigned to the new entry because you desifned that tag for all new imported document.
