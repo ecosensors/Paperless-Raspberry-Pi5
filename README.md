@@ -20,7 +20,7 @@ I assume
 
 Note: I do not have so much experience with Docker and paperless. You might need to adapt the step according to your needs. Feel free to suggest corrections and improvements. 
 
-## Materals
+## Materials
 
 This exercise have been done on a MacBook Pro M4 and with a Synology DS220+
 
