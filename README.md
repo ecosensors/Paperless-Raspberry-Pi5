@@ -160,7 +160,6 @@ You should read
      origin download.docker.com
 
 
-
 ### Install docker
 ```
 sudo apt install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
@@ -345,7 +344,9 @@ I tried and it works fine!
 
 
 ## Install Samba
-Paperless let you to copy/past or move a pdf file into folder called 'consume'. After you past your pdf file, Paperless will automatically detect it and create a new record. You will just need to finalized the entry according to the document type, correspondant and tags. A special tag will be assigned to the new entry because you desifned that tag for all new imported document.
+Paperless let you to copy/past or move a pdf file into folder called 'consume'. After you pasted your pdf file, Paperless will automatically create a new record. You will just need to finalized the entry according to the document type, correspondant and tags. A special tag will be assigned to the new entry because you desifned that tag for all new imported document.
+
+![Inbox Tga](assets/images/inbox-tag.png "Inbox Tag")
 
 
 As I can not easly send a file from my MacBook to the folder 'consume' of my Rasoberry, on my Raspberry Pi5, I configured Samba to be able to mount the Samba share to my MacBook. In that way, from my MacBook, I am able to move or copy/past a pdf file, I want to import to Paperless, on my Raspberry Pi5. 
