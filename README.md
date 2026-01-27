@@ -344,7 +344,8 @@ I tried and it works fine!
 
 
 ## Install Samba
-Paperless let you to copy/past or move a pdf file into folder called 'consume'. After you pasted your pdf file, Paperless will automatically create a new record. You will just need to finalized the entry according to the document type, correspondant and tags. A special tag will be assigned to the new entry because you desifned that tag for all new imported document.
+Paperless let you to copy/past or move a pdf file into folder called 'consume'. After you pasted your pdf file, Paperless will automatically create a new record. You will just need to finalized the entry according to the document type, correspondant and tags. 
+A special tag will be assigned to the new records, because you checked 'Inbox Tag' for a tag.
 
 ![Inbox Tga](assets/images/inbox-tag.png "Inbox Tag")
 
