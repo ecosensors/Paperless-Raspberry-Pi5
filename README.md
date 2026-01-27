@@ -18,7 +18,8 @@ I assume
 * you feel confortable to assemble [the SSD M.2 hat and the cooler](https://www.raspberrypi.com/documentation/accessories/m2-hat-plus.html#installation)
 * you feel confortable to install the [Raspberry OS](https://www.raspberrypi.com/documentation/computers/os.html#introduction) and [configure it](https://www.raspberrypi.com/documentation/computers/configuration.html#raspi-config) with command line
 
-Note: I do not have so much experience with Docker and paperless. You might need to adapt the step according to your needs. Feel free to suggest corrections and improvements. 
+Note: I do not have so much experience with Docker and paperless. Feel free to suggest corrections and improvements. You may need to adapt the steps according to your needs
+
 
 ## Materials
 
@@ -48,21 +49,18 @@ unzip export-2026-01-19.zip -d export-2026-01-19
 
 ## Installation of the Raspberry
 
-After you have assembled the SSD hat onto the Raspberry Pi, connect an Ethernet cable from your home router to the Ethernet port of your Raspberry Pi5. Connect a keyboard and an Micro-HDMI cable to a monitor (HDMI). Power on your Raspberry Pi and hold down the Shift key (you may need a wire keyboard).
+After you have assembled the SSD hat onto the Raspberry Pi, connect an Ethernet cable from your home router to the Ethernet port of your Raspberry Pi5. Connect a wired keyboard, a mouse and an Micro-HDMI cable to a monitor (HDMI). Power on your Raspberry Pi and hold down the Shift key.
 
 ![Pi Install](assets/images/pi-install.png "Pi Install")
 
-On the next window (white and purple, you will be asked to [select](https://www.raspberrypi.com/documentation/computers/getting-started.html#step-2-configure-the-fundamentals) you board, the OS and the storage devise. Select
+On the next window (white and purple), you will be asked to [select](https://www.raspberrypi.com/documentation/computers/getting-started.html#step-2-configure-the-fundamentals) your board, the OS and the storage devise. Select
 
 * Raspberry Pi devise: Raspberry Pi5
 * Operating system: Raspberry Pi OS (64-bit)
 * Storage: Select the SSD drive (you may have one option SAMSUNG MZ9LQ...)
 * Select a language and your keyboard language
 
-You can personalize your OS which is very usefull, but I notice with Pi OS (64-bit), the setting are not saved and you will be asked to do that at the end.
-(In progress)
-
-When the installation is completed, with the keyboard and mouse connect at the Raspberry, open a terminal and enter. When you will propted
+You can personalize your OS which is very usefull, but I noticed with Pi OS (64-bit), the settings are not saved and you will be asked to do it again at the end. You will be asked for
 
 Country
 * Country: Select your location
@@ -76,7 +74,7 @@ Create user:
 select WiFi Network
 * Choose your WiFi
 
-When the update are done, open a terminal and
+When the update are done, open a terminal and enter
 
 ```
 sudo raspi-config
@@ -92,13 +90,13 @@ Then
 * S4 hostname
 * Give an host name
 
-When it ask you to reboot, say YES
+When the Pi ask you to reboot, say YES
 
 From that point, all other steps can be performed from your MacBook terminal
 
 Connect to your raspberry
 ```
-ssh pierrot@hostname.local
+ssh username@pi_hostname.local
 ```
 and run the following commands
 
@@ -120,19 +118,17 @@ Run the following command to update your firmware to the latest version:
 ```
 sudo rpi-eeprom-update -a
 ```
-Then, reboot with sudo reboot.
+Then, reboot the Raspberry Pi.
 
 
 
 ## Miscellaneous
-On your Internet Box (home router), I recommend reserving the IP address assigned by your router (DHCP) for your Raspberry Pi, according to its MAC address. In that way, your Raspberry will always have the same IP address.
+On your Internet Box (home router), I recommend reserving the IP address assigned by the DHCP service of your home router for your Raspberry Pi, according to its MAC address. In that way, your Raspberry will always have the same IP address.
 
-All steps bellow are done with command lines. So, you will need to be connect to your Raspberry with `ssh usernanem@hostname.local` from the terminal of your Macbook...
-
-As you connected a monitor, and keyboard and a mouse to your Rasoberry, you can perform the following steps from the terminal of your Raspberry, as well.
-
+All steps bellow are done with command lines. So, you will need to be connect to your Raspberry with `ssh usernanem@pi_hostname.local` from the terminal of your Macbook...
 
 ## Docker
+### Preparation
 ```
 sudo apt install apt-transport-https ca-certificates curl gpg
 ```
@@ -170,7 +166,7 @@ You should read
 sudo apt install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 ```
 
-That’s all. Docker should now be installed; the service should be started and enabled to run automatically on boot by default. Let’s verify.
+That’s all. Docker should now be installed. The service should be started and enabled to run automatically on boot by default. Let’s verify.
 
 ```
 sudo systemctl is-active docker
@@ -183,12 +179,10 @@ You should read
 
 Add the user to the docker group
 ```
-sudo adduser pierrot docker
-# Check
-getent group|grep docker
+sudo adduser pierrot docker && getent group|grep docker
 ```
 
-then disconnect with `exit` and reconnect with `ssh username@hostname.local` and the check docker
+then disconnect with `exit` and reconnect with `ssh username@pi_hostname.local` and the check docker
 ```
 docker ps
 ```
@@ -202,24 +196,24 @@ bash -c "$(curl --location --silent --show-error https://raw.githubusercontent.c
 During the installation, you will be asked to give some information
 * URL: I want to access from any where, then I entered an URL like http://myged.mydomain.ch . If you do not want, leave it empty
 * Port [8000]: press enter to keep the default option
-* Current time zone [Europe/Zurich]: press enteer to keep the default option
-* Database backend (postgres sqlite mariadb) [postgres]: press enteer to keep the default option
-* Enable Apache Tika? (yes no) [no]: press enteer to keep the default option
+* Current time zone [Europe/Zurich]: press enter to keep the default option
+* Database backend (postgres sqlite mariadb) [postgres]: press enter to keep the default option
+* Enable Apache Tika? (yes no) [no]: press enter to keep the default option
 * OCR language [eng]: fra (I chose fra for french)
-* User ID [1000]: press enteer to keep the default option
-* Group ID [1000]: press enteer to keep the default option
+* User ID [1000]: press enter to keep the default option
+* Group ID [1000]: press enter to keep the default option
 * Target folder [/home/pierrot/paperless-ngx]: That fine for me, I pressed enter
-* Consume folder [/home/pierrot/paperless-ngx/consume]: press enteer to keep the default option
+* Consume folder [/home/pierrot/paperless-ngx/consume]: press enter to keep the default option
 * Media folder []:/home/pierrot/paperless-ngx/media
 * Data folder []: /home/pierrot/paperless-ngx/data
 * Database folder []: /home/pierrot/paperless-ngx/db
 * Paperless username [pierrot]: choose an username or keep the default option
 * Paperless password: Choose a password
-* Email [pierrot@localhost]: give a e-mail
+* Email [pierrot@localhost]: give an e-mail
 
 and then press a key to install
 
-If you want to access it from any where, you will need an URL for your raspberry as DynDNS. From my home router, I also needed to forward the port 8080 to the port 8000 of my Raspberry to access Paperless with the following URL 
+If you want to access Paperless from any where, you will need an URL for your raspberry. From my home router, I also needed to forward the port 8080 to the port 8000 of my Raspberry to access Paperless with the following URL 
 
 > http://myged.mydomain.ch:8080
 
@@ -251,15 +245,15 @@ Then run the command (you can run it after you have configured the backup, bello
 docker compose up -d
 ```
 
-From this point, by default, all new documents with me saved /compagny/year/document_type/title.
+From this point, by default, all new documents are saved in /compagny/year/document_type/title.pdf
 
-From the Paperless admin page, You can create additional [storage paths](https://docs.paperless-ngx.com/advanced_usage/#storage-paths), if you need to specify different path/tree.
+From the Paperless admin web page, You can create additional [storage paths](https://docs.paperless-ngx.com/advanced_usage/#storage-paths), if you need to specify different path/tree.
 
 
 
 ## Backup/restaure on a Synology NFS Share drive
 
-I want to weekly backup all my documents and the paperless configuration file to an external devise.
+I want to weekly backup all my documents and the paperless configuration files to an external devise, as a NAS
 
 ### Preparation
 
@@ -269,8 +263,7 @@ On your Synology NAS you will need to
 
 ![Synology NFS](assets/images/synology-nfs.png "Synology NFS")
 
-
-On the Raspberry, you need to configure NFS
+On the Raspberry, you need to install and configure NFS
 
 ```
 sudo apt-get install nfs-kernel-server nfs-common
@@ -282,7 +275,7 @@ edit paperless-ngx/docker-compose.xml and change the line
 - export:/usr/src/paperless/export
 ```
 
-and add the line starting with export, bellow the line redisdata 
+and add the lines starting with ´export', bellow the line ´redisdataˋ
 ```
 volumes:
   redisdata:
@@ -310,7 +303,7 @@ sudo -s
 mount -l | grep volume1
 ls -la /var/lib/docker/volumes/paperless_export/_data
 ```
-all my exports are listed, but `cd ~/paperless-ngx && ls -la export` does not. I do not understand why, at the moment.
+all my exports are listed, but `cd ~/paperless-ngx && ls -la export` are not listed and in my point of view, it should. I do not understand why, at the moment.
 
 ### Backup
 
@@ -319,14 +312,14 @@ If you want to run manuelly the backup, go the paperless directory and run the c
 cd paperless-ngx
 docker compose exec webserver document_exporter ../export -fpz
 ```
+the backup will be in a zip files (export_year_mount_day.zip in media/documents/originals
 
 If you have changed the default storage tree
 ```
 PAPERLESS_FILENAME_FORMAT={{correspondent}}/{{created_year}}/{{document_type}}/{{title}}
 ```
-the zip file contains in `media/documents/originals` all of your files.
 
-You will find all your files correctly structured so that you can locate them in your desired format. The advantage is that if you no longer wish to use Paperless, you can continue working with this structure on your computer.
+You will find all of your files, correctly structured so that you can locate them in your desired format. The advantage is that if you no longer wish to use Paperless, you can continue working with this structure on your computer.
 
 #### Backup with cron
 
@@ -338,7 +331,7 @@ crontab -e
 
 ### Restaure
 
-If I need to restaure a file, I would extract the zip file and get back the missing file(s)
+If I need to restore a file, I would extract the zip file and get back the missing file(s)
 
 With the following command, I restored two exports with two different storage paths (I do not why). Some existing files have been replaced but I observed that both structure (storage paths) have been restored (not good).
 
@@ -346,7 +339,7 @@ With the following command, I restored two exports with two different storage pa
 docker compose exec webserver document_importer ../export/export-2026-01-20.zip
 ```
 
-If I need to restore more several files, I would prefer to reinstall my Raspberry following the steps above (30mn) and import all of my files with the following command. Opt to you.
+If I need to restore a lot of files, I would prefer to reinstall my Raspberry following the steps above (20-30mn) and import all of my files with the following command. Opt to you.
 
 I tried and it works fine!
 
