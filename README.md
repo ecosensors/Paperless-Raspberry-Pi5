@@ -251,7 +251,7 @@ From the Paperless admin web page, You can create additional [storage paths](htt
 
 
 
-## Backup/restaure on a Synology NFS Share drive
+## Backup/restore on a Synology NFS Share drive
 
 I want to weekly backup all my documents and the paperless configuration files to an external devise, as a NAS
 
@@ -329,7 +329,7 @@ crontab -e
 (in progress)
 
 
-### Restaure
+### Restore
 
 If I need to restore a file, I would extract the zip file and get back the missing file(s)
 
