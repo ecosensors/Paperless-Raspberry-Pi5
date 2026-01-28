@@ -1,19 +1,14 @@
 # Paperless-Raspberry-Pi5
 
-(That summary is being writting)
+Paperless-ngx is a community-supported open-source document management system that transforms your physical documents into a searchable online archive so you can keep, well, less paper
 
-Installation of the OpenSource document management system (DMS) [Paperless-ngx](https://docs.paperless-ngx.com/) on a Rasoberry Pi5 with Docker.
+This summary will show how to setup a Raspberry Pi5 with Paperless-ngx
 
-Read more about [DMS](https://en.wikipedia.org/wiki/Document_management_system) ou [GED in french](https://fr.wikipedia.org/wiki/Gestion_électronique_des_documents)
-
-That summary will show you how to
-
-* Install the raspberry
+* Install the raspberry Pi5
 * install Docker
 * install Paperless-ngx
 * backup your Paperless documents to a remote Synology NAS
-* install and configure Samba
-
+* install and configure Samba for Paperless
 
 I assume 
 * you have a minimum experience with Raspberry and command lines.
