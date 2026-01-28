@@ -2,7 +2,8 @@
 
 (That summary is being writting)
 
-Installation of the OpenSource EDM [Paperless-ngx](https://docs.paperless-ngx.com/) on a Rasoberry Pi5 with Docker.
+Installation of the OpenSource document management system [Paperless-ngx](https://docs.paperless-ngx.com/) on a Rasoberry Pi5 with Docker.
+read more about DMS ou [GED in french](https://fr.wikipedia.org/wiki/Gestion_électronique_des_documents)
 
 That summary will show you how to
 
