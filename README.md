@@ -2,7 +2,7 @@
 
 (That summary is being writting)
 
-Installation of the OpenSource document management system [Paperless-ngx](https://docs.paperless-ngx.com/) on a Rasoberry Pi5 with Docker.
+Installation of the OpenSource document management system (DMS) [Paperless-ngx](https://docs.paperless-ngx.com/) on a Rasoberry Pi5 with Docker.
 
 Read more about [DMS](https://en.wikipedia.org/wiki/Document_management_system) ou [GED in french](https://fr.wikipedia.org/wiki/Gestion_électronique_des_documents)
 
