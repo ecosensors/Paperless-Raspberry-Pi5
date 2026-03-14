@@ -8,7 +8,7 @@ Paperless-ngx is a community-supported open-source document management system th
 
 Advantages:
 * From your FTP scanner, scan your document and send it directly to paperless
-* You recevived a contract by e-mail, forward the e-mail to paperless, the attached pdf will be automatically saved into Paperless
+* You have received a contract by email. Forward it to Paperless, the attached PDF will be automatically saved in Paperless.
 * With your smartphone, take a picture of a bill or invoice. The document will be automatically sent to paperless
 * Create your own tags to easly find a document(s)
 * Structure your imported documents in your own folder structure so you can retrieve them properly if you no longer wish to use Paperless or migrate to another document management system (DMS) software
