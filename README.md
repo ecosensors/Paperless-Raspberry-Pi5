@@ -1,6 +1,8 @@
 # Paperless-Raspberry-Pi5
 
-(That summary is being writting)
+![Pi Install](assets/images/rasp-paperless-o.png "Raspberry Pi5 + Papperless")
+
+(That summary is being rewieving)
 
 Installation of the OpenSource EDM [Paperless-ngx](https://docs.paperless-ngx.com/) on a Rasoberry Pi5 with Docker.
 
