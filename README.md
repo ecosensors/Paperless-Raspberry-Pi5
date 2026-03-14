@@ -1,10 +1,10 @@
 # Paperless-Raspberry-Pi5
 
-(That summary is being writting)
+![Pi Install](assets/images/rasp-paperless-o.png "Raspberry Pi5 + Paperless")
 
-Installation of the OpenSource EDM [Paperless-ngx](https://docs.paperless-ngx.com/) on a Rasoberry Pi5 with Docker.
+Paperless-ngx is a community-supported open-source document management system that transforms your physical documents into a searchable online archive so you can keep, well, less paper
 
-That summary will show you how to
+This summary will show how to setup a Raspberry Pi5 with Paperless-ngx:
 
 * Install the raspberry
 * install Docker
