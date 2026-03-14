@@ -391,4 +391,6 @@ Restart Samba
 sudo systemctl restart smbd
 ```
 
+## Improvement and contribution
+Feel free to suggest modifications or improvements.
 
