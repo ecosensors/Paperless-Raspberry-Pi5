@@ -4,6 +4,13 @@
 
 Paperless-ngx is a community-supported open-source document management system that transforms your physical documents into a searchable online archive so you can keep, well, less paper
 
+Avanatges:
+* From your FTP scanner, scan your document and send it directly to paperless
+* You recevived a contract by e-mail, forward the e-mail tp paperless, the attached pdf will be automatically saved into Paperless
+* with your smartphone, take a picture of a bill or invoice. The document will be automatically sent to paperless
+* create your own tags to easly find a document(s)
+* Structure your imported documents in your own folder structure so you can retrieve them properly if you no longer wish to use Paperless or migrate to another document management system (DMS) software
+
 This summary will show how to setup a Raspberry Pi5 with Paperless-ngx:
 
 * Install the raspberry
