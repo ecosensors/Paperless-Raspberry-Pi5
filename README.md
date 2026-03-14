@@ -97,16 +97,17 @@ select
 Then 
 * 1 System option
 * S4 hostname
-* Give an host name
+* Give an host name to your Raspberry device
 
-When the Pi ask you to reboot, say YES
+When the Raspberry asks you to reboot, say YES
 
 From that point, all other steps can be performed from your MacBook terminal
 
-Connect to your raspberry
+Connect to your raspberry (I am performing those steps with a Macbook)
 ```
 ssh username@pi_hostname.local
 ```
+
 and run the following commands
 
 ```
@@ -134,7 +135,7 @@ Then, reboot the Raspberry Pi.
 ## Miscellaneous
 On your Internet Box (home router), I recommend reserving the IP address assigned by the DHCP service of your home router for your Raspberry Pi, according to its MAC address. In that way, your Raspberry will always have the same IP address.
 
-All steps bellow are done with command lines. So, you will need to be connect to your Raspberry with `ssh usernanem@pi_hostname.local` from the terminal of your Macbook...
+All steps bellow are done with command lines. So, you will need to be connect to your Raspberry with `ssh usernanem@pi_hostname.local` from the terminal of a Macbook...
 
 ## Docker
 ### Preparation
@@ -230,7 +231,7 @@ If you want to access Paperless from any where, you will need an URL for your ra
 
 ### Very usefull configuration
 By default, all documents are stored in paperless-ngx/media/document/original/ from 00000001.pdf to 000000x.pdf.
-It's much more useful to customize the folder structure/tree so that if you no longer wish to use Paperless, you can keep your documents in a readable and reusable structure.
+**It's much more useful to customize the folder structure/tree** so that if you no longer wish to use Paperless, you can keep your documents in a readable and reusable structure.
 
 go to
 ```
@@ -291,8 +292,8 @@ volumes:
     driver: local
     driver_opts:
       type: "nfs"
-      o: "addr=192.168.1.114,rw" # Change with your IP address
-      device: ":/volume1/paperless" # Change with the path to your share
+      o: "addr=192.168.1.114,rw" # Change the local IP address of your NAS (provided by your home router)
+      device: ":/volume1/paperless" # Change with the path to your share you created above
 ```
 
 when it's done, you have to run the command
@@ -311,7 +312,7 @@ sudo -s
 mount -l | grep volume1
 ls -la /var/lib/docker/volumes/paperless_export/_data
 ```
-all my exports are listed, but `cd ~/paperless-ngx && ls -la export` are not listed and in my point of view, it should. I do not understand why, at the moment.
+all my exports are listed, but the comman `cd ~/paperless-ngx && ls -la export` does not show any remote foldders/files. In my point of view, it should. I do not understand why, at the moment.
 
 ### Backup
 
@@ -320,14 +321,14 @@ If you want to run manuelly the backup, go the paperless directory and run the c
 cd paperless-ngx
 docker compose exec webserver document_exporter ../export -fpz
 ```
-the backup will be in a zip files (export_year_mount_day.zip in media/documents/originals
+You will find the backup in a zip file, on the NAS share folder (export_year_mount_day.zip)
 
 If you have changed the default storage tree
 ```
 PAPERLESS_FILENAME_FORMAT={{correspondent}}/{{created_year}}/{{document_type}}/{{title}}
 ```
 
-You will find all of your files, correctly structured so that you can locate them in your desired format. The advantage is that if you no longer wish to use Paperless, you can continue working with this structure on your computer.
+The Zip file contains all of your folders/files, correctly structured so that you can locate them in your desired format. The advantage is that if you no longer wish to use Paperless, you can continue working with this structure on your computer.
 
 #### Backup with cron
 
@@ -341,7 +342,7 @@ crontab -e
 
 If I need to restore a file, I would extract the zip file and get back the missing file(s)
 
-With the following command, I restored two exports with two different storage paths (I do not why). Some existing files have been replaced but I observed that both structure (storage paths) have been restored (not good).
+With the following command, I restored two exports with two different storage paths (I do not why). Some existing files have been replaced but I observed that both structure (storage paths) have been restored (not good). (Some investigation and improvement can be done here...)
 
 ```
 docker compose exec webserver document_importer ../export/export-2026-01-20.zip
@@ -353,8 +354,8 @@ I tried and it works fine!
 
 
 ## Install Samba
-Paperless let you to copy/past or move a pdf file into folder called 'consume'. After you pasted your pdf file, Paperless will automatically create a new record. You will just need to finalized the entry according to the document type, correspondant and tags. 
-A special tag will be assigned to the new records, because you checked 'Inbox Tag' for a tag.
+Paperless let you to copy/past or move a pdf file into folder called 'consume'. After you pasted your pdf file, Paperless will automatically create a new record. You will just need to finalized the entry according to the document type, a correspondant and tags. 
+A special tag will be assigned to the new records, because you checked 'Inbox Tag' for the tag.
 
 ![Inbox Tga](assets/images/inbox-tag.png "Inbox Tag")
 
